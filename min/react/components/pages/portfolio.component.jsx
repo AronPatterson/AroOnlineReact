@@ -24,12 +24,12 @@ class Portfolio extends Component {
 		let page = DataStore.getPageBySlug('portfolio');
         return <div>
         	<h1>{page.title.rendered}</h1>
-			<div className="grid-x">
-				<section className="small-16 cell">
+			<div className="row">
+				<section className="col">
 					<div dangerouslySetInnerHTML={{ __html: (page.content.rendered) }} />
 				</section>
 			</div>
-			<div className="grid-x align-center portfolioSite">
+			<div className="row text-center portfolioSite">
 				<PortfolioList />
 			</div>
 		</div>;

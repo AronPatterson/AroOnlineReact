@@ -16,10 +16,10 @@ class PortfolioList extends Component {
 		let acf = page.acf.portfolio_setup; // map out Advanced Custom Fields in WP
 		return acf.map((site) => {
 			let {site_name, site_tag, site_url, has_mobile} = site; // for cleanliness
-			return <div key={site_tag} className={"small-16 medium-14 large-11 cell callout secondary text-center " + site_tag + "Site"}>
+			return <div key={site_tag} className={"col-sm-16 col-md-14 col-lg-11 text-center " + site_tag + "Site"}>
 				<h3 className="text-center">{site_name}</h3>
-				<div className="grid-x align-center">
-					<div className="small-16 medium-8 cell">
+				<div className="row align-center">
+					<div className="col-sm-16 col-md-8">
 						<a onClick={() => this.openModal(site_tag)} aria-haspopup="true">
 							<img src={Assets.myPath + "img/portfolio/desktop/site_" + site_tag + ".png"}
 								alt={site_name + " Desktop View"} />
@@ -28,7 +28,7 @@ class PortfolioList extends Component {
 					</div>
 
 					{ has_mobile ? // if it has mobile
-						<div className="small-16 medium-8 cell">
+						<div className="col-sm-16 col-md-8">
 							<a aria-haspopup="true"><img src={Assets.myPath + "img/portfolio/mobile/site_" + site_tag + ".png"} alt={site_name + " Mobile View"} /><br />
 								<span><i className="fa fa-mobile" aria-hidden="true"></i> View mobile</span>
 							</a>

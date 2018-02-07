@@ -4,7 +4,6 @@ import plugins       from 'gulp-load-plugins';
 import yargs         from 'yargs';
 import browser       from 'browser-sync';
 import gulp          from 'gulp';
-import jshint        from 'jshint';
 import mocha         from 'gulp-mocha';
 import rimraf        from 'rimraf';
 import yaml          from 'js-yaml';
@@ -17,7 +16,7 @@ import named         from 'vinyl-named';
 const $ = plugins();
 
 // Check for Production flag
-// Production being turned off will print Source Maps for files
+// Production being turned off will print Source Maps for files and turn React to prod mode
 const PRODUCTION = true;
 
 // Load settings from config.yml
@@ -61,14 +60,39 @@ function sass() {
     .pipe(browser.reload({ stream: true }));
 }
 
-let webpackConfig = {
+let webpackConfigDev = {
+  plugins: [],
   module: {
     rules: [
       {
         test: /.jsx?$/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'babel-loader?compact=false'
+          }
+        ]
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  }
+},
+webpackConfigProd = {
+  plugins: [
+    new webpack2.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify("production")
+      }
+    })
+  ],
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        use: [
+          {
+            loader: 'babel-loader?compact=false'
           }
         ]
       }
@@ -78,21 +102,6 @@ let webpackConfig = {
     extensions: ['.js', '.jsx']
   }
 }
-// Combine JavaScript into one file
-// In production, the file is minified
-function javascript() {
-  return gulp.src(PATHS.jsdir)
-    .pipe(named())
-    .pipe($.sourcemaps.init())
-    .pipe($.jshint())
-    .pipe(webpackStream(webpackConfig, webpack2))
-    .pipe($.if(PRODUCTION, $.uglify()
-      .on('error', e => { console.log(e); })
-    ))
-    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
-    .pipe($.concat('app.min.js'))
-    .pipe(gulp.dest(PATHS.dist + '/js'));
-}
 
 // Combine all Angular into one file
 // In production, the file is minified
@@ -100,7 +109,8 @@ function react() {
   return gulp.src(PATHS.reactdir)
     .pipe(named())
     .pipe($.sourcemaps.init())
-    .pipe(webpackStream(webpackConfig, webpack2))
+    .pipe($.if(!PRODUCTION, webpackStream(webpackConfigDev, webpack2)))
+    .pipe($.if(PRODUCTION, webpackStream(webpackConfigProd, webpack2)))
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e); })
     ))
@@ -112,6 +122,7 @@ function react() {
 function mochaTesting() {
   return gulp.src(PATHS.testingdir)
     .pipe(mocha({
+      require: 'babel-core/register',
       reporter: 'list',
       globals: {
         should: require('should')
@@ -132,25 +143,33 @@ function images() {
 // Start a server with BrowserSync to preview the site in
 function server(done) {
   browser.init({
-    startPath: '/', server: PATHS.dist, port: PORT
+    open: false, // stops the browser window from opening automatically
+    startPath: '/',
+    proxy: 'localhost:8001', // connects to Apache VHOST server
+    online: true
   });
+  done();
+}
+
+// Reload the browser with BrowserSync
+function reload(done) {
+  browser.reload();
   done();
 }
 
 // Watch for changes to static template pages, Sass, and JavaScript
 function watch() {
-  gulp.watch(PATHS.assets);
   //gulp.watch('min/**/*.html').on('all', gulp.series(copy)); // this watches the html content for changes
-  gulp.watch('min/scss/**/*.scss').on('all', gulp.series(sass)); // SASS for changes
-  gulp.watch('min/js/**/*.js').on('all', gulp.series(javascript)); // JS for changes
-  gulp.watch('min/react/**/*').on('all', gulp.series(react)); // Angular for changes
-  gulp.watch('min/img/**/*').on('all', gulp.series(images)); // images for changes
+  gulp.watch('min/test/**/*.js').on('all', mochaTesting); // this watches the test files for changes
+  gulp.watch('min/scss/**/*.scss').on('all', sass); // SASS for changes
+  gulp.watch('min/react/**/*').on('all', gulp.series(react, mochaTesting, browser.reload)); // React for changes
+  gulp.watch('min/img/**/*').on('all', gulp.series(images, browser.reload)); // images for changes
 }
 
 // Build the "dist" folder by running all of the below tasks
 gulp.task('build',
- gulp.series(clean, gulp.parallel(sass, javascript, react, images)));
+ gulp.series(clean, mochaTesting, gulp.parallel(sass, react, images)));
 
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
-  gulp.series('build', watch));
+  gulp.series('build', server, watch));

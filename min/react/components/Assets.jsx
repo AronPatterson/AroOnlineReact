@@ -1,6 +1,6 @@
 class Assets {
 	constructor() {
-		this.myPath = aoWP.partials;
+		this.myPath = "/wp-content/themes/aoReact/assets/";
 		this.scrollToTop = () => window.scrollTo(0, 0);
 		this.backToTop = () => // loads our Back to Top button
 			$( function(a) {

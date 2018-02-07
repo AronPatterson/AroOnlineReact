@@ -9,14 +9,17 @@ html, body {
 }
 body {
 	height: 100%;
-	font-family: $ao-body-font-family;
-	font-size: $ao-font-size; // base font size - never change (only dollars)
-	color: $ao-body-font-color;
-	background: $ao-body-background;
+	font-family: $font-family-base;
+	font-size: $font-size-base; // base font size - never change (only dollars)
+	color: $font-color;
+	background: $body-bg;
 	background-size: cover;
 	background-attachment: fixed;
 	text-rendering: optimizeLegibility;
 	overflow-x: hidden;
+}
+img {
+	max-width: 100%;
 }
 
 .modalContainer {
@@ -34,7 +37,7 @@ body {
 		.modalText {
 			position: relative;
 			top: 70%;
-			font-family: $ao-header-font-family;
+			font-family: $headings-font-family;
 			color: $tan;
 			font-size: 40px;
 		}
@@ -46,23 +49,23 @@ body {
 ::-moz-selection {
 	// Firefox needs its own unique selector
 	color: $white;
-	background: rgba($secondary-color, .8);
+	background: rgba(theme-color("secondary"), .8);
 	text-shadow: none;
 }
 ::-webkit-selection {
 	// so does Chrome apparently
 	color: $white;
-	background: rgba($secondary-color, .8);
+	background: rgba(theme-color("secondary"), .8);
 	text-shadow: none;
 }
 ::selection {
 	// this affects the background color of text and image selections
 	color: $white;
-	background: rgba($secondary-color, .8);
+	background: rgba(theme-color("secondary"), .8);
 	text-shadow: none;
 }
 %placeholder-attribute {
-	color: $medium-gray;
+	color: $gray-400;
 }
 :-moz-placeholder {
 	// Firefox 18-
@@ -84,7 +87,7 @@ body {
 
 /* GENERAL CLASSES */
 h2, h3, h4, h5, h6 {
-	@include breakpoint(medium down) {
+	@include media-breakpoint-down(md) {
 		text-align: center;
 		margin-top: 8px;
 	}
@@ -93,14 +96,14 @@ h2, h3, h4, h5, h6 {
 html[data-whatinput="mouse"] {
 	#mainNav {
 		li a, li a::focus {
-			@include disable-mouse-outline;
+			//@include disable-mouse-outline;
 		}
 	}
 }
 
 input[type="submit"] {
 	position: relative;
-	@include button(false, $scarlet, $brown, $white, solid);
+	//@include button(false, $scarlet, $brown, $white, solid);
 	border: 1px solid rgba($deep-red,.3);
 	transition: border 2s, box-shadow .5s;
 	box-shadow: -4px 4px 5px -4px rgba(0,0,0,.5);
@@ -108,11 +111,11 @@ input[type="submit"] {
 		border: 1px solid transparent;
 		box-shadow: none;
 	}
-	@include disable-mouse-outline; // nifty feature that kills outlines for mouse users, but not for keyboard users
+	//@include disable-mouse-outline; // nifty feature that kills outlines for mouse users, but not for keyboard users
 }
 a {
 	outline-color: $ao-mouse-outline;
-	border-radius: $ao-global-radius*4;
+	border-radius: $border-radius*4;
 }
 
 // if the user has less than IE9... shame upon them and their houses
@@ -132,7 +135,7 @@ a {
 	// width: 100%;
 	// margin: 0 auto;
 	padding: 0 10px 1px 10px;
-	@include breakpoint(medium down) {
+	@include media-breakpoint-up(md) {
 		padding: 0;
 	}
 }
@@ -159,7 +162,7 @@ a {
 	background: $body-footer-bg;
 	p {
 		margin-top: 20px;
-		font-family: $body-font-family;
+		font-family: $font-family-base;
 		font-size: 14px;
 		font-weight: bold;
 		font-color: $tan;
@@ -205,13 +208,13 @@ a {
 	font-size: 18px;
 	opacity: 0;
 	color: $white;
-	background: rgba($primary-color, .8) center 50%;
+	background: rgba(theme-color("secondary"), .8) center 50%;
 	box-shadow: 0 0 10px rgba(#000, .05);
 	transition: opacity .3s 0s, visibility 0s .3s;
 	text-align: center;
 	white-space: nowrap;
-	border-radius: $global-radius;
-	@include breakpoint(medium down) {
+	border-radius: $border-radius;
+	@include media-breakpoint-down(md) {
 		right: 20px;
 		bottom: 20px;
 	}

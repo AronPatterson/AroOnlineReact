@@ -1,6 +1,3 @@
-# Your project's server will run on localhost:xxxx at this port
-PORT: 80
-
 # Autoprefixer will make sure your CSS works with these browsers
 COMPATIBILITY:
   - "last 2 versions"
@@ -29,20 +26,8 @@ PATHS:
   sass:
     - "node_modules/foundation-sites/scss"
     - "node_modules/motion-ui/src"
-  # Paths to JavaScript entry points for webpack to bundle modules
-  jsdir:
-    - "min/js/app.js"
+  # Paths to React entry point for webpack to bundle modules
   reactdir:
     - "min/react/ao.app.main.js"
   testingdir:
-    - "min/react/components/**/*.test.js"
-
-#- "src/angular/angular-sanitize.js"
-#- "src/angular/angular-animate.js"
-#- "src/angular/angular-loader.js"
-#- "src/angular/angular-route.js"
-#- "src/angular/angular-touch.js"
-#- "src/angular/angular-resource.js"
-#- "src/angular/angular-foundation.js"
-#- "src/angular/ao-framework/ao.routes.js"
-#- "src/angular/controllers/ao.controllers.js"
+    - "min/test/*.js*"

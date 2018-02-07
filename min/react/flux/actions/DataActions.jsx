@@ -4,7 +4,7 @@ import alt from '../alt/Alt.jsx';
 class DataActions {
 
     constructor() {
-        const appUrl = aoWP.api_url; // Wordpress installation url
+        const appUrl = "/wp-json/wp/v2"; // Wordpress installation url
 
         this.pagesEndPoint = `${appUrl}pages`; // Endpoint for getting Wordpress Pages
         this.postsEndPoint = `${appUrl}posts`; // Endpoint for getting Wordpress Posts

@@ -8,7 +8,7 @@
 	position: absolute;
 	background: $ao-loader-icon;
 	width: 433px;
-	height: 652px;
+	//height: 652px;
 	right: 0;
 	bottom: 0;
 }
@@ -19,120 +19,11 @@
 	}
 	img {
 		max-width: 75%;
-		@include breakpoint(medium down) {
+		@include media-breakpoint-down(md) {
 			max-width: 50%;
 		}
 	}
 }
-
-/*/ FOUNDATION FIXES /*/
-// Unfortunately, sometimes a robust framework requires some fixes
-@if $global-flexbox == false {
-	.accordion-menu li[role="menuitem"], .accordion-menu li[role="tab"] {
-		display: block;
-	}
-	.menu a {
-		width: 100%!important;
-	}
-	.dropdown.menu.large-horizontal>li.is-dropdown-submenu-parent>a:after {
-		border-color: $dropdown-arrow-color transparent transparent!important;
-	}
-	.is-dropdown-submenu .is-dropdown-submenu-parent.opens-right>a:after {
-		border-color: transparent transparent transparent $dropdown-arrow-color!important;
-	}
-}
-@if $global-flexbox == true {
-	.accordion-menu li {
-		width: auto;
-	}
-	.titleBarToggle {
-		width: 100%;
-		text-align: center;
-		justify-content: center;
-	}
-	.menu {
-		a {
-			@include disable-mouse-outline;
-		}
-		@include breakpoint(large) {
-			display: flex!important;
-		}
-		@include breakpoint(medium down) {
-			display: block;
-		}
-	}
-	.title-bar-title {
-		text-shadow: -1px -1px 0 $deep-red, 
-		1px -1px 0 $deep-red, 
-		-1px 1px 0 $deep-red, 
-		1px 1px 0 $deep-red;
-	}
-	#mainNav {
-		font-weight: bolder;
-		.activeLink {
-			a {
-				color: $scarlet!important;
-				&::before {
-					background-color: $scarlet!important;
-				}
-			}
-		}
-		@include breakpoint(medium down) {
-			a {
-				width: 100%;
-				text-align: center;
-				border-radius: 0;
-				background-color: $brown;
-				justify-content: center;
-				font-family: $header-font-family;
-				font-size: 30px;
-				border-top: 1px solid #555;
-				color: $white;
-				text-shadow: -1px -1px 0 $deep-red, 
-				1px -1px 0 $deep-red, 
-				-1px 1px 0 $deep-red, 
-				1px 1px 0 $deep-red;
-				&:hover, &.active {
-					background-color: $scarlet;
-					color: $white;
-				}
-			}
-		}
-		li {
-			@include breakpoint(large) {
-				a {
-					padding: 0;
-					font-family: $ao-header-font-family;
-					font-size: 38px;
-					color: $brown;
-					@include breakpoint(large down) {
-						font-size: 32px;
-					}
-					&::before {
-						display: inline-block;
-						content: "";
-						background-color: $brown;
-						width: 12px;
-						height: 32px;
-						margin-left: 16px;
-						margin-right: 10px;
-						@include breakpoint(large down) {
-							height: 28px;
-						}
-					}
-					&:hover, &.activeLink {
-						color: $scarlet;
-						&::before {
-							background-color: $scarlet;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-
 
 /*/ CONTENT /*/
 // Main content area styles - these are the basics to save time on initial build, but can be deleted/recreated as needed
@@ -140,10 +31,9 @@
 	position: relative;
 	padding: 0 0;
     margin: 0 auto;
-    max-width: $ao-global-width*2;
 	background: url('../img/ftr_aron-trees.png') bottom center repeat-x;
 	a {
-		@include disable-mouse-outline;
+		//@include disable-mouse-outline;
 	}
 	ul {
 		list-style: square;
@@ -160,11 +50,11 @@
 		background: $body-content-bg;
 		background-position: center center;
 		background-repeat: repeat;
-		border-top-left-radius: $global-radius;
-		border-top-right-radius: $global-radius;
+		border-top-left-radius: $border-radius;
+		border-top-right-radius: $border-radius;
 		border-bottom: 3px solid rgba($deep-red,.3);
 		border-right: 2px solid rgba($deep-red,.2);
-		@include breakpoint(medium down) {
+		@include media-breakpoint-down(md) {
 			min-height: 200px;
 			padding: 20px;
 			margin-top: 0;
@@ -176,45 +66,100 @@
 			font-size: 14px;
 		}
 		a {
-			color: $anchor-color;
-			text-decoration: $anchor-text-decoration;
+			color: $link-color;
 			&:hover {
-				color: $anchor-color-hover;
-				text-decoration: $anchor-text-decoration-hover;
+				color: $link-hover-color;
 			}
 		}
 		blockquote {
 			margin: 0 0 20px;
 			padding: 2px 20px 0 20px;
-			color: scale-color($gray, $lightness: -20%);
-			border-left: 1px solid scale-color($gray, $lightness: 20%);
+			color: scale-color($gray-400, $lightness: -20%);
+			border-left: 1px solid scale-color($gray-400, $lightness: 20%);
 			cite {
 				display: block;
 				font-size: 13px;
-				color: scale-color($gray, $lightness: -20%);
+				color: scale-color($gray-400, $lightness: -20%);
 				&::before {
 					content: '\2014 \0020';
 				}
 				a, a:visited {
-					color: scale-color($gray, $lightness: -30%);
+					color: scale-color($gray-400, $lightness: -30%);
 				}
 			}
 			p {
-				color: scale-color($gray, $lightness: -20%);
+				color: scale-color($gray-400, $lightness: -20%);
 			}
 		}
 	}
 	.contentAside {
 		padding-left: 20px;
-		@include breakpoint(medium down) {
+		@include media-breakpoint-down(md) {
 			padding: 0;
+		}
+	}
+}
+
+#mainNav {
+	font-weight: bolder;
+	@include media-breakpoint-down(md) {
+		a {
+			width: 100%;
+			text-align: center;
+			border-radius: 0;
+			background-color: $brown;
+			justify-content: center;
+			font-family: $headings-font-family;
+			font-size: 30px;
+			border-top: 1px solid #555;
+			color: $white;
+			text-shadow: -1px -1px 0 $deep-red, 
+			1px -1px 0 $deep-red, 
+			-1px 1px 0 $deep-red, 
+			1px 1px 0 $deep-red;
+			&:hover, &.active {
+				background-color: $scarlet;
+				color: $white;
+			}
+		}
+	}
+	li {
+		@include media-breakpoint-up(lg) {
+			a {
+				padding: 0;
+				line-height: 0;
+				font-family: $headings-font-family;
+				font-size: 38px;
+				color: $brown;
+				@include media-breakpoint-down(lg) {
+					font-size: 32px;
+				}
+				&::before {
+					display: inline-block;
+					content: "";
+					background-color: $brown;
+					width: 12px;
+					height: 32px;
+					margin-left: 16px;
+					margin-right: 10px;
+					@include media-breakpoint-down(lg) {
+						height: 28px;
+					}
+				}
+				&:hover, &.activeLink {
+					color: $scarlet;
+					&::before {
+						background-color: $scarlet;
+					}
+				}
+			}
 		}
 	}
 }
 
 // Home
 .homeSide {
-	@include breakpoint(medium up) {
+	@include media-breakpoint-up(md) {
 		padding-left: 20px;
 	}
 	h2,h3 {
@@ -243,7 +188,7 @@
 	&:active, &:focus {
 		box-shadow: -1px 1px 1px -1px rgba($black,.5);
 	}
-	@include breakpoint(small only) {
+	@include media-breakpoint-down(sm) {
 		padding: 22px;
 		margin-bottom: 10px;
 	}
@@ -398,48 +343,4 @@
 			}
 		}
 	}
-}
-
-// MODALS
-.ng-modal-overlay {
-	/* A dark translucent div that covers the whole screen */
-	position:absolute;
-	z-index:9999;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-	background-color:#000000;
-	opacity: 0.8;
-}
-.ng-modal-dialog {
-	/* A centered div above the overlay with a box shadow. */
-	z-index:10000;
-	position: absolute;
-	width: 50%; /* Default */
-
-	/* Center the dialog */
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	-webkit-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-
-	background-color: #fff;
-	box-shadow: 4px 4px 80px #000;
-}
-.ng-modal-dialog-content {
-	padding:10px;
-	text-align: left;
-}
-.ng-modal-close {
-	position: absolute;
-	top: 3px;
-	right: 5px;
-	padding: 5px;
-	cursor: pointer;
-	font-size: 120%;
-	display: inline-block;
-	font-weight: bold;
-	font-family: 'arial', 'sans-serif';
 }

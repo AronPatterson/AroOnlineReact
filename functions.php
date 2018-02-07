@@ -18,26 +18,23 @@ function register_ao_menus() {
 class ao_ng_theme {
 	function enqueue_scripts() {
 		// STYLESHEETS
-		wp_enqueue_style( 'main-styles', SHORTPATH . '/assets/css/app.css', false, false );
-		wp_enqueue_style( 'font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css', false, null, false );
+		wp_enqueue_style('main-styles', SHORTPATH . '/assets/css/app.css', false, false);
+		wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css', false, null, false);
 
 		// JQUERY
-		wp_deregister_script( 'jquery' ); // removes all jQuery versions added by plugins, to prevent doubling
+		wp_deregister_script('jquery'); // removes all jQuery versions added by plugins, to prevent doubling
 		wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, null, true ); // re-registers jQuery, using https:// as necessary, and loads it: no dependencies, null version, and in footer
 		wp_enqueue_script( 'jquery' ); // reinitiates script
 
-		wp_enqueue_script( 'modernizr', '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', false, null, true ); // re-registers jQuery, using https:// as necessary, and loads it: no dependencies, null version, and in footer
+		wp_enqueue_script('modernizr', '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', false, null, true); // re-registers Modernizer, using https:// as necessary, and loads it: no dependencies, null version, and in footer
 
-		wp_enqueue_script( 'fastclick', '//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js', false, null, true );
+		wp_enqueue_script('fastclick', '//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js', false, null, true);
 
-		wp_enqueue_script( 'font-loader', '//cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js', false, null, true ); // Google Web Font Loader
+		wp_enqueue_script('font-loader', '//cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js', false, null, true); // Google Web Font Loader
 
-		wp_enqueue_script( 'app', SHORTPATH . '/assets/js/app.min.js', array('jquery'), false, true ); // queues our godfather script, which requires jQuery to be loaded first
+		//wp_enqueue_script( 'app', SHORTPATH . '/assets/js/app.min.js', array('jquery'), false, true ); // queues our godfather script, which requires jQuery to be loaded first
 
 		// REACT
-		//wp_enqueue_script( 'react-core', '//cdnjs.cloudflare.com/ajax/libs/react/16.2.0/cjs/react.development.js', null, false );
-		//wp_enqueue_script( 'react-dom', '//cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/cjs/react-dom-server.browser.production.js', null, false );
-		//wp_enqueue_script( 'react-router', '//cdnjs.cloudflare.com/ajax/libs/react-router/4.2.0/react-router.min.js', null, false );
 		wp_enqueue_script( 'react-theme', SHORTPATH . '/assets/react/ao.app.min.js', array('modernizr', 'fastclick'), null, true );
 
 
@@ -90,17 +87,13 @@ function ao_wp_title( $title, $sep ) {
 }
 
 $aoTheme = new ao_ng_theme();
-add_action( 'wp_enqueue_scripts', array( $aoTheme, 'enqueue_scripts' ) );
-add_action( 'init', 'register_ao_menus' );
-add_filter( 'wp_title', 'ao_wp_title', 10, 2 );
+add_action('wp_enqueue_scripts', array($aoTheme, 'enqueue_scripts'));
+add_action('init', 'register_ao_menus');
+add_filter('wp_title', 'ao_wp_title', 10, 2 );
+
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 ); // deactivates pointless emoji script
 remove_action( 'wp_print_styles', 'print_emoji_styles' ); // deactivates pointless emoji styles
 
-
-function my_add_link_target( $html ) {
-	$html = preg_replace( '/(<a.*")>/', '$1 target="_self">', $html );
-	return $html;
-}
 add_filter( 'image_send_to_editor', 'my_add_link_target', 10 );
 
 // add_filter('show_admin_bar', '__return_false');

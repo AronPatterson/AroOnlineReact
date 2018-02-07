@@ -10,8 +10,8 @@ class Navigation extends Component {
 		allPages.sort((a,b) =>  pageOrder.indexOf(a.slug) > pageOrder.indexOf(b.slug));
 		return allPages.map((page) => {
 				if(page.slug != 'page-not-found'){
-					return <li key={"list" + page.id}>
-						<Link key={page.id} to={`/${page.slug}`}>
+					return <li className="nav-item" key={"list" + page.id}>
+						<Link className="nav-link" key={page.id} to={`/${page.slug}`}>
 							{page.title.rendered}
 						</Link>
 					</li>;

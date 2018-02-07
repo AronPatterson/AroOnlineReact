@@ -24,7 +24,7 @@ class App extends React.Component {
 		return <div>
 			<Header />
 				<main id="mainContent" role="main">
-					<div id="contentBox" className="grid-container">
+					<div id="contentBox" className="container">
 						<Switch>
 							<Route path="/" component={Home} exact />
 							<Route path="/about" component={About} exact />
